@@ -1148,7 +1148,8 @@ func (cfg *Config) getChallengeInfo(ctx context.Context, identifier string) (Cha
 		return Challenge{}, false, fmt.Errorf("opening distributed challenge token file %s: %v", tokenKey, err)
 	}
 	if len(chalInfoBytes) == 0 {
-		return Challenge{}, false, fmt.Errorf("no information found to solve challenge for identifier: %s", identifier)
+		// return Challenge{}, false, fmt.Errorf("no information found to solve challenge for identifier: %s", identifier)
+		return Challenge{}, false, nil
 	}
 
 	err := json.Unmarshal(chalInfoBytes, &chalInfo)

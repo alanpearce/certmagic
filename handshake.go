@@ -72,7 +72,7 @@ func (cfg *Config) GetCertificateWithContext(ctx context.Context, clientHello *t
 	if clientHello.ServerName != "" &&
 		len(clientHello.SupportedProtos) == 1 &&
 		clientHello.SupportedProtos[0] == acmez.ACMETLS1Protocol {
-		challengeCert, distributed, err := cfg.getTLSALPNChallengeCert(clientHello)
+		challengeCert, _, err := cfg.getTLSALPNChallengeCert(clientHello)
 		if err != nil {
 			cfg.Logger.Error("tls-alpn challenge",
 				zap.String("remote_addr", clientHello.Conn.RemoteAddr().String()),
@@ -80,11 +80,7 @@ func (cfg *Config) GetCertificateWithContext(ctx context.Context, clientHello *t
 				zap.Error(err))
 			return nil, err
 		}
-		cfg.Logger.Info("served key authentication certificate",
-			zap.String("server_name", clientHello.ServerName),
-			zap.String("challenge", "tls-alpn-01"),
-			zap.String("remote", clientHello.Conn.RemoteAddr().String()),
-			zap.Bool("distributed", distributed))
+
 		return challengeCert, nil
 	}
 

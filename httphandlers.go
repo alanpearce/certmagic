@@ -96,11 +96,6 @@ func solveHTTPChallenge(logger *zap.Logger, w http.ResponseWriter, r *http.Reque
 		w.Header().Add("Content-Type", "text/plain")
 		w.Write([]byte(challenge.KeyAuthorization))
 		r.Close = true
-		logger.Info("served key authentication",
-			zap.String("identifier", challenge.Identifier.Value),
-			zap.String("challenge", "http-01"),
-			zap.String("remote", r.RemoteAddr),
-			zap.Bool("distributed", distributed))
 		return true
 	}
 	return false
